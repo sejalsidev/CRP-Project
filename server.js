@@ -3,10 +3,12 @@ const { DataConnection } = require('./DatabaseConnection');
 const user = require('./Router/registerRouter')
 const employee = require('./Router/EmployeeRouter')
 const feedback = require('./Router/FeedbackRouter')
-const work = require('./Router/WorkHistoryRouter')
-const taskrequest = require('./Router/TaskRequestRouter')
+const work = require('./Router/WorkallocateRouter')
+const request = require('./Router/RequestsectionRouter')
+const activity = require('./Router/ActivitysectionRouter')
 const cors = require('cors')
 const app = express();
+require('dotenv').config()
 
 app.use(express.json())
 app.use(cors())
@@ -16,8 +18,9 @@ app.use('/user', user)
 app.use('/employee', employee)
 app.use("/uploads", express.static("uploads"));
 app.use('/feedback', feedback)
-app.use('/workhistory', work)
-app.use('/task', taskrequest)
+app.use('/workallocate', work)
+app.use('/requestsection', request)
+app.use('/activitysection', activity)
 app.get("/", (req, res) => {
     res.send("ok");
 });

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const workHistroySchema = new mongoose.Schema({
-    employee: {
+const workallocateSchema = new mongoose.Schema({
+    employeeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee'
     },
@@ -23,15 +23,20 @@ const workHistroySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["pending", 'In Progress', 'completed'],
+        enum: ['pending', 'InProgress', 'completed'],
+        default: 'pending',
         required: true
     },
     assignTask: {
+        type: String,
+        required: true
+    },
+    details: {
         type: String,
         required: true
     }
 
 }, { versionKey: false })
 
-const workHistoryModel = mongoose.model('workhistory', workHistroySchema)
-module.exports = { workHistoryModel }
+const workAllocateModel = mongoose.model('workallocate', workallocateSchema)
+module.exports = { workAllocateModel }

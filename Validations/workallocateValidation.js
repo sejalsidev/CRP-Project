@@ -1,8 +1,8 @@
 const Joi = require('joi')
 
-const validateWorkHistory = {
+const validateWorkAllocate = {
     body: Joi.object({
-        employee: Joi.string().required(),
+        employeeId: Joi.string().required(),
         companyName: Joi.string().required(),
         jobTitle: Joi.string().required(),
         startDate: Joi.string().required(),
@@ -11,4 +11,4 @@ const validateWorkHistory = {
         assignTask: Joi.string().required()
     })
 }
-module.exports = { validateWorkHistory }
+module.exports = { validateWorkAllocate }

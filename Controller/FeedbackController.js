@@ -15,7 +15,7 @@ const addFeedback = async (req, res) => {
             console.log(dateSubmitted, "dateSubmitteddateSubmitteddateSubmitted")
 
             let feedbackDetails = await feedbackModel.create({
-                user: user._id,
+                // user: user._id,
                 comments: comments,
                 rating: rating,
                 dateSubmitted: dateSubmitted

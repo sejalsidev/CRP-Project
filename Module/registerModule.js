@@ -12,6 +12,11 @@ const registerSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    userType: {
+        type: String,
+        default: 'Users',
+        enum: ['Admin', 'Users']
     }
 }, { versionKey: false })
 const register = mongoose.model("User", registerSchema)

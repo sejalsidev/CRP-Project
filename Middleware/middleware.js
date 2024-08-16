@@ -1,53 +1,51 @@
-const jwt = require('jsonwebtoken')
-const userModel = require('../Module/registerModule')
-
-const cookieParser = require("cookie-parser");
+const jwt = require('jsonwebtoken');
+const userModel = require('../Module/registerModule');
 
 const auth = async (req, res, next) => {
     try {
-        let validToken = req.headers.authorization || req.body.token || req.query.token || req.cookies.token || req.headers['x-access-token'];
-        console.log(validToken, "totkejwefjhehrfgjher")
+        const tokenHeader = req.headers.authorization || req.body.token || req.query.token || req.cookies['x-access-token'] || req.headers['x-access-token'];
+        console.log("Token from request:", tokenHeader);
 
-        // console.log(req.cookies.token);
-        // console.log(validToken, "tokentokentokentoken")
-
-        let token = validToken.split(" ")[1];
-        if (token) {
-            console.log(token, "tokenswww")
-            let user = jwt.verify(token, 'your_secret_key')
-            console.log(user, "useruseruseruser")
-            const userData = await userModel.findById({ _id: user.id, 'tokens.token': token })
-            console.log("user data  = ", userData);
-
-            // const token = jwt.sign({ id: loginData._id, email: loginData.email }, 'your_secret_key', { expiresIn: '30d' });
-            if (userData) {
-                console.log(user)
-                req.user = { id: user.id, employeeId: userData.empId };
-                req.token = token
-                next()
-            }
-            else {
-                res.json({
-                    status: 401,
-                    message: "unathorized user"
-                })
-            }
-        }
-        else {
-            console.log("ggggg")
-
-            res.json({
+        if (!tokenHeader) {
+            return res.status(401).json({
                 status: 401,
-                message: "unathorized user"
-            })
+                message: "Unauthorized user: No token provided"
+            });
         }
 
+        const token = tokenHeader.startsWith('Bearer') ? tokenHeader.split(' ')[1] : tokenHeader;
+        console.log("Extracted token:", token);
+
+        const decoded = jwt.verify(token, process.env.LOGIN_SECRET_KEY);
+        console.log(decoded, "decoded")
+        if (!decoded) {
+            return res.status(401).json({
+                status: 401,
+                message: "Unauthorized user: Invalid token"
+            });
+        }
+
+        const userData = await userModel.findOne({ _id: decoded.id });
+        console.log("User data:", userData);
+
+        if (!userData) {
+            return res.status(401).json({
+                status: 401,
+                message: "Unauthorized user: User not found or token mismatch"
+            });
+        }
+
+        req.user = { id: userData._id };
+        req.token = token;
+
+        next();
     } catch (error) {
-        console.log(error)
-        res.json({
+        console.error("Authentication error:", error);
+        res.status(401).json({
             status: 401,
-            message: "unathorized user"
-        })
+            message: "Unauthorized user: Token verification failed"
+        });
     }
-}
-module.exports = auth
+};
+
+module.exports = auth;

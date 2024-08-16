@@ -17,7 +17,7 @@ const register = async (req, res) => {
                     password: decrpPwd
                 })
                 res.json({ status: 200, message: "success", userDetail })
-            }
+            }   
             else {
                 res.json({ status: 400, message: "all fields are required" })
             }
@@ -39,8 +39,8 @@ const login = async (req, res) => {
     try {
         if (email && password) {
             if (loginData) {
-        
-                const token = jwt.sign({ id: loginData._id, email: loginData.email }, 'your_secret_key', { expiresIn: '30d' });
+
+                const token = jwt.sign({ id: loginData._id, email: loginData.email }, process.env.LOGIN_SECRET_KEY, { expiresIn: '30d' });
                 res.cookie('x-access-token', token, { secure: false, httpOnly: true });
                 console.log(token, "tokentokentokentoken")
                 return res.json({
