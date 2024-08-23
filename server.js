@@ -6,6 +6,7 @@ const feedback = require('./Router/FeedbackRouter')
 const work = require('./Router/WorkallocateRouter')
 const request = require('./Router/RequestsectionRouter')
 const activity = require('./Router/ActivitysectionRouter')
+const leave = require('./Router/LeaveRouter')
 const cors = require('cors')
 const app = express();
 require('dotenv').config()
@@ -21,6 +22,7 @@ app.use('/feedback', feedback)
 app.use('/workallocate', work)
 app.use('/requestsection', request)
 app.use('/activitysection', activity)
+app.use('/leave', leave)
 app.get("/", (req, res) => {
     res.send("ok");
 });

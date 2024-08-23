@@ -27,6 +27,8 @@ const addActivitysection = async (req, res) => {
 const updateActivitySection = async (req, res) => {
     const activitySection = req.body
     const { id } = req.params
+
+    console.log(id, "fdfgfd")
     try {
         if (!activitySection) {
             res.json({ status: 404, message: "Activity Section Not Found" })
@@ -51,7 +53,7 @@ const deleteActivitysection = async (req, res) => {
     const { id } = req.params
     try {
         const activityData = await activity.findByIdAndDelete({ _id: id })
-        return res.json({ satus: 200, message: "activity section delete successfully", data: activityData })
+        return res.json({ status: 200, message: "activity section delete successfully", data: activityData })
     } catch (error) {
         res.json({ status: 500, message: "Internal server Error" })
         console.log("Error Fetching Error", error)
@@ -60,7 +62,7 @@ const deleteActivitysection = async (req, res) => {
 
 const getActivitysection = async (req, res) => {
     try {
-        const userId = req.user.id; 
+        const userId = req.user.id;
 
         const userData = await User.findById(userId);
         console.log(userData, "<-user data->");

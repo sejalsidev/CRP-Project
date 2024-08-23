@@ -1,5 +1,6 @@
 const { requestsection } = require('../Module/RequestsectionModel')
 const requestSection = require('../Validations/RequestValidation')
+const User = require('../Module/registerModule')
 
 const addRequestsection = async (req, res) => {
     const requestSection = req.body
@@ -58,4 +59,22 @@ const deleteRequestsection = async (req, res) => {
         res.json({ status: 500, message: "Internal server Error" })
     }
 }
-module.exports = { addRequestsection, updateRequestsection, deleteRequestsection }
+
+const getRequestsection = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const userData = await User.findById(userId);
+        console.log(userData, "<-user data->");
+
+        if (!userData) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const requestData = await requestsection.find()
+        res.json({ status: 200, message: "get request section successfully", data: requestData })
+    } catch (error) {
+        console.log("Error Fetching Data", error)
+        res.json({ status: 500, message: "Internal server Error" })
+    }
+}
+module.exports = { addRequestsection, updateRequestsection, deleteRequestsection, getRequestsection }

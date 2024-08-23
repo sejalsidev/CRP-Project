@@ -16,7 +16,7 @@ const addEmployeDetail = async (req, res) => {
         console.log(newEmployee, "---------------------------------------------------------------------")
 
         const newEmployeeExtra = await EmployeeExtra.create({
-            empId: newEmployee._id,
+            empId: newEmployee?._id,
             ...employeeData,
             image
         });

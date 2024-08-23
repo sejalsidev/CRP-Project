@@ -20,7 +20,7 @@ const feedbackSchema = new mongoose.Schema({
         required: true,
     }
 }, {
-    versionKey: false,
+    versionKey: false
 });
 
 const feedbackModel = mongoose.model('Feedback', feedbackSchema);
