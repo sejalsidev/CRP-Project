@@ -7,6 +7,7 @@ const work = require('./Router/WorkallocateRouter')
 const request = require('./Router/RequestsectionRouter')
 const activity = require('./Router/ActivitysectionRouter')
 const leave = require('./Router/LeaveRouter')
+const attendance = require('./Router/AttendanceRouter')
 const cors = require('cors')
 const app = express();
 require('dotenv').config()
@@ -23,6 +24,7 @@ app.use('/workallocate', work)
 app.use('/requestsection', request)
 app.use('/activitysection', activity)
 app.use('/leave', leave)
+app.use('/attendance', attendance)
 app.get("/", (req, res) => {
     res.send("ok");
 });
